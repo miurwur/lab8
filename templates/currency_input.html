@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <nav>
+        {% for item in navigation %}
+            <a href="{{ item.href }}">{{ item.caption }}</a>{% if not loop.last %} | {% endif %}
+        {% endfor %}
+    </nav>
+
+    <h1>Узнать курс валюты</h1>
+
+    {% if error %}
+        <div style="color: red; margin-bottom: 15px;">
+            Ошибка: {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/currency_submit">
+        <label for="currency_code">Введите код валюты (например: USD, EUR, GBP):</label><br>
+        <input type="text" id="currency_code" name="currency_code" required
+               placeholder="USD" style="margin: 10px 0; padding: 5px;">
+        <br>
+        <button type="submit">Узнать курс</button>
+    </form>
+
+    <div style="margin-top: 20px;">
+        <h3>Популярные валюты:</h3>
+        <ul>
+            <li><a href="/currency/USD">Доллар США (USD)</a></li>
+            <li><a href="/currency/EUR">Евро (EUR)</a></li>
+            <li><a href="/currency/GBP">Фунт стерлингов (GBP)</a></li>
+            <li><a href="/currency/CNY">Китайский юань (CNY)</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--  <head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <title>{{title}}</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">-->
+<!--  </head>-->
+<!--  <body>-->
+<!--    <h1>{{title}}</h1>-->
+<!--    <p>{{ content }}</p>-->
+<!--    {% for item in navigation %}-->
+<!--            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>-->
+<!--        {% endfor %}-->
+<!--  </body>-->
+<!--</html>-->
+
+
+<!doctype html>
+<html>
+  <head>
+    <title>{{title}}</title>
+  </head>
+  <body>
+  <h1>{{title}}</h1>
+
+    <!-- Форма ввода -->
+    <form method="POST" action="/submit">
+      <div>
+        <input type="text" name="name" placeholder="Имя" required>
+      </div>
+      <div>
+        <input type="number" name="age" placeholder="Возраст" required>
+      </div>
+      <div>
+        <input type="email" name="email" placeholder="Email" required>
+      </div>
+      <button type="submit">Отправить</button>
+    </form>
+
+    <!-- Показать данные после отправки -->
+    {% if user_data %}
+    <div>
+      <h4>Введенные данные:</h4>
+      <p>Имя: {{user_data.name}}</p>
+      <p>Возраст: {{user_data.age}}</p>
+      <p>Email: {{user_data.email}}</p>
+    </div>
+    {% endif %}
+
+    <p>{{ content }}</p>
+
+    <!-- Меню -->
+    <ul>
+      {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

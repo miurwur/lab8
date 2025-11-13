@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <nav>
+        {% for item in navigation %}
+            <a href="{{ item.href }}">{{ item.caption }}</a>{% if not loop.last %} | {% endif %}
+        {% endfor %}
+    </nav>
+
+    <h1>Курс валюты: {{ currency_id }}</h1>
+
+    <a href="/currency">← Назад к вводу</a>
+
+    {% if error %}
+        <div style="color: red; margin: 20px 0;">
+            Ошибка: {{ error }}
+        </div>
+    {% else %}
+        <div style="margin: 20px 0; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9;">
+            <h2>{{ currency_name }}</h2>
+            <p><strong>Код валюты:</strong> {{ currency_id }}</p>
+            <p><strong>Курс к рублю:</strong> {{ rate }} ₽</p>
+            <p><strong>Номинал:</strong> {{ nominal }} {{ currency_id }}</p>
+            <p><strong>Дата актуальности:</strong> на текущую дату (ЦБ РФ)</p>
+        </div>
+    {% endif %}
+</body>
+</html>
