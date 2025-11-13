@@ -130,27 +130,40 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 
-
-
     def do_POST(self):
         """
         Обрабатывает все POST запросы к серверу.
         Включает обработку форм пользователя и запросов курсов валют.
         """
         if self.path == '/submit':
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length).decode('utf-8')
-            data = parse_qs(post_data)
+            try:
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length).decode('utf-8')
+                data = parse_qs(post_data)
 
-            name = data['name'][0]
-            age = int(data['age'][0])
-            email = data['email'][0]
-            self.user_data = Users_id(name, age, email)
+                name = data['name'][0]
+                age = int(data['age'][0])
+                email = data['email'][0]
 
-            self.send_response(302)
-            self.send_header('Location', '/currency')
-            self.end_headers()
+                self.user_data = Users_id(name, age, email)
 
+                self.send_response(302)
+                self.send_header('Location', '/currency')
+                self.end_headers()
+
+            except ValueError as e:
+                # Показываем форму снова с сообщением об ошибке
+                template = env.get_template("page1.html")
+                result = template.render(
+                    title="Введите ваши данные",
+                    user_data=None,
+                    error=str(e)  # Передаем сообщение об ошибке в шаблон
+                )
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(bytes(result, "utf-8"))
+                return
 
         elif self.path == '/currency_submit':
             content_length = int(self.headers['Content-Length'])

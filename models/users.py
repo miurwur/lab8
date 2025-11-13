@@ -1,6 +1,15 @@
 class Users_id():
     def __init__(self, name: str, age: int, email: str):
         # конструктор
+
+        # Валидация при создании объекта
+        if len(name) < 1:
+            raise ValueError('Имя не может быть меньше 1 символа')
+        if age < 1:
+            raise ValueError('Возраст не может быть меньше 1')
+        if len(email) < 1:
+            raise ValueError('Email не может быть пустым')
+
         self.__name = name
         self.__age = age
         self.__email = email
@@ -32,7 +41,7 @@ class Users_id():
         return self.__email
 
     @email.setter
-    def age(self, email):
+    def email(self, email):
         if len(email) > 0:
             self.__email = email
         else:
