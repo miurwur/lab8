@@ -2,14 +2,15 @@
 <html>
   <head>
     <title>{{title}}</title>
+
   </head>
   <body>
   <h1>{{title}}</h1>
 
-    {% if error %}
-    <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
-      <strong>Ошибка:</strong> {{ error }}
-    </div>
+    {% if error and error != "" %}
+  <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
+    <strong>Ошибка:</strong> {{ error }}
+  </div>
   {% endif %}
 
     <!-- Форма ввода -->
@@ -27,14 +28,14 @@
     </form>
 
     <!-- Показать данные после отправки -->
-    {% if user_data %}
-    <div>
-      <h4>Введенные данные:</h4>
-      <p>Имя: {{user_data.name}}</p>
-      <p>Возраст: {{user_data.age}}</p>
-      <p>Email: {{user_data.email}}</p>
-    </div>
-    {% endif %}
+<!--    {% if user_data %}-->
+<!--    <div>-->
+<!--      <h4>Введенные данные:</h4>-->
+<!--      <p>Имя: {{user_data.name}}</p>-->
+<!--      <p>Возраст: {{user_data.age}}</p>-->
+<!--      <p>Email: {{user_data.email}}</p>-->
+<!--    </div>-->
+<!--    {% endif %}-->
 
     <p>{{ content }}</p>
 
@@ -45,4 +46,98 @@
       {% endfor %}
     </ul>
   </body>
+
+    <style>
+        /* Общие стили для всей страницы */
+        body {
+            font-family: 'Segoe UI', Arial;  /* Шрифт текста */
+            line-height: 1.6;                            /* Расстояние между строками */
+            color: #333;                                 /* Цвет текста */
+            max-width: 800px;                            /* Ширина страницы */
+            margin: 0 auto;                              /* Центрирование страницы */
+            padding: 20px;                               /* Отступы от краев */
+            background-color: #f9f9f9;                   /* Цвет фона */
+        }
+
+        /* Стили для заголовка */
+        h1 {
+            color: #2c3e50;                             /* Цвет заголовка */
+            text-align: center;                         /* Выравнивание по центру */
+        }
+
+        /* Стили для формы */
+                .form-container {
+            background-color: white;                    /* Белый фон */
+            padding: 25px;                             /* Внутренние отступы */
+            margin-bottom: 25px;                       /* Отступ снизу */
+        }
+
+        /* Стили для полей ввода */
+        input[type="text"],
+        input[type="number"],
+        input[type="email"] {
+            width: 100%;                               /* Ширина на весь контейнер */
+            padding: 10px;                             /* Внутренние отступы */
+            box-sizing: border-box;                    /* Правильный расчет размеров */
+            font-size: 16px;                           /* Размер шрифта */
+        }
+
+
+       /* Стили кнопки */
+        button {
+            background-color: #3498db;                 /* Синий цвет фона */
+            color: white;                              /* Белый текст */
+            padding: 12px 25px;                        /* Отступы внутри кнопки */
+            cursor: pointer;                           /* Курсор-указатель при наведении */
+            font-size: 16px;                           /* Размер шрифта */
+            width: 100%;                               /* Ширина на весь контейнер */
+            transition: background-color 0.3s;         /* Плавное изменение цвета */
+        }
+
+        /* Стили кнопки при наведении */
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Стили для отображения данных */
+        .data-display {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .data-display h4 {
+            color: #2c3e50;
+            margin-top: 0;
+            padding-bottom: 10px;
+        }
+
+        /* Стили для навигации */
+        .navigation {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        /* Навигационное меню */
+        .navigation {
+            padding: 0;                              /* Убираем отступы */
+        }
+
+        .navigation li {
+            margin-bottom: 10px;                     /* Отступ между пунктами меню */
+        }
+
+        .navigation a {
+            text-decoration: none;                   /* Убираем подчеркивание ссылок */
+            color: #3498db;                         /* Синий цвет ссылок */
+            padding: 8px 15px;                      /* Отступы внутри ссылки */
+            display: block;                         /* Ссылка занимает всю ширину */
+            transition: background-color 0.3s;      /* Плавное изменение фона */
+        }
+
+        .navigation a:hover {
+            background-color: #f0f8ff;              /* Светло-голубой фон при наведении */
+        }
+    </style>
 </html>

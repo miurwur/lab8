@@ -5,36 +5,132 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <nav>
-        {% for item in navigation %}
-            <a href="{{ item.href }}">{{ item.caption }}</a>{% if not loop.last %} | {% endif %}
-        {% endfor %}
-    </nav>
+    <h1>{{ title }}</h1>
 
-    <h1>Узнать курс валюты</h1>
-
-    {% if error %}
-        <div style="color: red; margin-bottom: 15px;">
-            Ошибка: {{ error }}
-        </div>
+    {% if error and error != "" %}
+    <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
+        <strong>Ошибка:</strong> {{ error }}
+    </div>
     {% endif %}
 
-    <form method="POST" action="/currency_submit">
-        <label for="currency_code">Введите код валюты (например: USD, EUR, GBP):</label><br>
-        <input type="text" id="currency_code" name="currency_code" required
-               placeholder="USD" style="margin: 10px 0; padding: 5px;">
-        <br>
-        <button type="submit">Узнать курс</button>
-    </form>
+    <!-- Навигационное меню -->
+    <ul class="navigation">
+        {% for item in navigation %}
+            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+        {% endfor %}
+    </ul>
 
-    <div style="margin-top: 20px;">
+    <!-- Форма для ввода кода валюты -->
+    <div class="form-container">
+        <form method="POST" action="/currency_submit">
+            <div>
+                <input type="text" id="currency_code" name="currency_code"
+                       placeholder="Введите код валюты (например: USD, EUR, GBP)" required>
+            </div>
+            <button type="submit">Узнать курс</button>
+        </form>
+    </div>
+
+    <!-- Список популярных валют -->
+    <div class="data-display">
         <h3>Популярные валюты:</h3>
-        <ul>
+        <ul class="navigation">
             <li><a href="/currency/USD">Доллар США (USD)</a></li>
             <li><a href="/currency/EUR">Евро (EUR)</a></li>
             <li><a href="/currency/GBP">Фунт стерлингов (GBP)</a></li>
             <li><a href="/currency/CNY">Китайский юань (CNY)</a></li>
         </ul>
     </div>
+
+    <style>
+        /* Общие стили для всей страницы */
+        body {
+            font-family: 'Segoe UI', Arial;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        /* Стили для заголовка */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        /* Стили для формы */
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+
+        /* Стили для полей ввода */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* Стили кнопки */
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+            border: none;
+            border-radius: 4px;
+        }
+
+        /* Стили кнопки при наведении */
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Стили для отображения данных */
+        .data-display {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .data-display h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            padding-bottom: 10px;
+        }
+
+        /* Стили для навигации */
+        .navigation {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .navigation li {
+            margin-bottom: 10px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #3498db;
+            padding: 8px 15px;
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+        }
+
+        .navigation a:hover {
+            background-color: #f0f8ff;
+        }
+    </style>
 </body>
 </html>

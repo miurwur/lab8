@@ -4,13 +4,63 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}} | {{author}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Общие стили для всей страницы */
+        body {
+            font-family: 'Segoe UI', Arial;  /* Шрифт текста */
+            line-height: 1.6;                            /* Расстояние между строками */
+            color: #333;                                 /* Цвет текста */
+            max-width: 800px;                            /* Ширина страницы */
+            margin: 0 auto;                              /* Центрирование страницы */
+            padding: 20px;                               /* Отступы от краев */
+            background-color: #f9f9f9;                   /* Цвет фона */
+        }
+
+        /* Стили для заголовка */
+        h1 {
+            color: #2c3e50;                             /* Цвет заголовка */
+            text-align: center;                         /* Выравнивание по центру */
+        }
+
+        /* Стили для контента */
+        .content {
+            background-color: white;                    /* Белый фон */
+            padding: 25px;                             /* Внутренние отступы */
+            margin-bottom: 25px;                       /* Отступ снизу */
+        }
+
+        /* Стили для навигации */
+        .navigation {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .navigation li {
+            margin-bottom: 10px;                     /* Отступ между пунктами меню */
+        }
+
+        .navigation a {
+            text-decoration: none;                   /* Убираем подчеркивание ссылок */
+            color: #3498db;                         /* Синий цвет ссылок */
+            padding: 8px 15px;                      /* Отступы внутри ссылки */
+            display: block;                         /* Ссылка занимает всю ширину */
+            transition: background-color 0.3s;      /* Плавное изменение фона */
+        }
+
+        .navigation a:hover {
+            background-color: #f0f8ff;              /* Светло-голубой фон при наведении */
+        }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>Вторая страница</h1>
-      <p>{{ content }}</p>
-      <ul>
+
+      <div class="content">
+        <p>{{ content }}</p>
+      </div>
+
+      <ul class="navigation">
         {% for item in navigation %}
           <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
         {% endfor %}

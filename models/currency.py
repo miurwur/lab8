@@ -65,4 +65,4 @@ def get_currencies(currency_codes: list, url: str = "https://www.cbr-xml-daily.r
 # if currency_data:
 #      print(currency_data)
 # main_id = CurrencyID("EU")
-# print(main_id.id)  проверка
+# print(main_id.id)
