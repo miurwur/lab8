@@ -2,6 +2,9 @@
 from models import Users_id
 from models import Users_id
 from models import CurrencyID, get_currencies
+from models import Currencies_users
+users_storage = {} # Хранение пользователей и просмотренных ими валют
+
 from urllib.parse import parse_qs
 import requests
 import sys
@@ -17,6 +20,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 NAVIGATION_page2 = [
     {"caption": "Главная", "href": "/"},
     {"caption": "Курсы валют", "href": "/currency"},
+    {"caption": "Пользователи и валюты", "href": "/users_currencies"}
 ]
 
 # Настройка среды Jinja2 для шаблонов
@@ -52,6 +56,27 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(bytes(result, "utf-8"))
 
 
+        elif self.path == '/users_currencies':
+
+
+            ''' Страница с пользователями и валютами'''
+            template = env.get_template("currencies_users.html")
+
+            users_data = []
+            for username, user_obj in users_storage.items():
+                users_data.append({
+                    "username":username,
+                    "currencies": user_obj.get_currencies()
+                })
+
+            result = template.render(
+                title="Пользователи и валюты",
+                navigation=NAVIGATION_page2,
+                users_data=users_data,
+                error=None
+            )
+            self.wfile.write(bytes(result, "utf-8"))
+
         elif self.path == '/currency':
             # Страница для ввода кода валюты
             template = env.get_template("currency_input.html")
@@ -68,6 +93,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 # Извлекаем ID валюты через URL и создаем новый объект(пример: CurrencyID(USD))
                 currency_id = self.path.split('/')[-1]
                 currency_obj = CurrencyID(currency_id)
+
+                # Сохраняем валюту для текущего пользователя
+                if self.user_data and hasattr(self.user_data, 'name'):
+                    username = self.user_data.name
+                    if username not in users_storage:
+                        users_storage[username] = Currencies_users(username)
+                    users_storage[username].add_currency(currency_id)
 
                 # Получаем данные по валюте
                 currency_data = get_currencies([currency_obj.id])
@@ -164,6 +196,50 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(bytes(result, "utf-8"))
                 return
+
+
+        elif self.path == '/add_currency':
+            # Обработка добавления валюты для пользователя
+            try:
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length).decode('utf-8')
+                data = parse_qs(post_data)
+
+                username = data['username'][0]
+                currency = data['currency'][0].strip().upper()
+
+                # Добавляем пользователя
+                if username not in users_storage:
+                    users_storage[username] = Currencies_users(username)
+
+                # Добавляем валюту
+                users_storage[username].add_currency(currency)
+
+                # Перенаправляем обратно на страницу пользователей
+                self.send_response(302)
+                self.send_header('Location', '/users_currencies')
+                self.end_headers()
+
+            except Exception as e:
+                # В случае ошибки показываем страницу с сообщением об ошибке
+                template = env.get_template("users_currencies.html")
+                users_data = []
+                for username, user_obj in users_storage.items():
+                    users_data.append({
+                        "username": username,
+                        "currencies": user_obj.get_currencies()
+                    })
+
+                result = template.render(
+                    title="Пользователи и валюты",
+                    navigation=NAVIGATION_page2,
+                    users_data=users_data,
+                    error=str(e)
+                )
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(bytes(result, "utf-8"))
 
         elif self.path == '/currency_submit':
             content_length = int(self.headers['Content-Length'])

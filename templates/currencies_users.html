@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <h1>{{title}}</h1>
+
+    {% if error and error != "" %}
+    <div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
+      <strong>Ошибка:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Добавление пользователя и валюты -->
+    <div class="form-container">
+      <form method="POST" action="/add_currency">
+        <div>
+          <input type="text" name="username" placeholder="Имя пользователя" required>
+        </div>
+        <div>
+          <input type="text" name="currency" placeholder="Код валюты (USD, EUR и т.д.)" required>
+        </div>
+        <button type="submit">Добавить валюту</button>
+      </form>
+    </div>
+
+    <!-- Показываем сохраненные данные пользователей -->
+    {% if users_data %}
+    <div class="data-display">
+      <h4>Сохраненные валюты пользователей:</h4>
+      {% for user in users_data %}
+        <div style="margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; background-color: white;">
+          <p>Пользователь:{{ user.username }}</p>
+          <p>Просмотренные валюты:
+            {% if user.currencies %}
+              {{ user.currencies|join(', ') }}
+            {% else %}
+              нет сохраненных валют
+            {% endif %}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <p>{{ content }}</p>
+
+    <!-- Меню -->
+    <ul class="navigation">
+      {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+      {% endfor %}
+    </ul>
+  </body>
+
+  <style>
+    /* Общие стили для всей страницы */
+    body {
+      font-family: 'Segoe UI', Arial;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    /* Стили для заголовка */
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    /* Стили для формы */
+    .form-container {
+      background-color: white;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    /* Стили для полей ввода */
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    /* Стили кнопки */
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 25px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      transition: background-color 0.3s;
+      border: none;
+      border-radius: 4px;
+    }
+
+    /* Стили кнопки при наведении */
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Стили для отображения данных */
+    .data-display {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .data-display h4 {
+      color: #2c3e50;
+      margin-top: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    /* Стили для навигации */
+    .navigation {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .navigation li {
+      margin-bottom: 10px;
+    }
+
+    .navigation a {
+      text-decoration: none;
+      color: #3498db;
+      padding: 8px 15px;
+      display: block;
+      transition: background-color 0.3s;
+    }
+
+    .navigation a:hover {
+      background-color: #f0f8ff;
+    }
+  </style>
+</html>
