@@ -1,1 +1,1 @@
-Барыкина Анна Олеговна P3122 8 лабораторная
+Отчет: https://github.com/miurwur/lab8/blob/master/report.md
