@@ -58,11 +58,3 @@ def get_currencies(currency_codes: list, url: str = "https://www.cbr-xml-daily.r
         handle.write(f"Ошибка при запросе к API: {e}")
         raise requests.exceptions.RequestException('Ошибка при запросе к API')
 
-
-# currency_list = ['USD', 'EUR', 'GBP', 'NNZ']
-#
-# currency_data = get_currencies(currency_list)
-# if currency_data:
-#      print(currency_data)
-# main_id = CurrencyID("EU")
-# print(main_id.id)
