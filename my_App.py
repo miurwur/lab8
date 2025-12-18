@@ -265,8 +265,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(bytes(result, "utf-8"))
 
-httpd = HTTPServer(('localhost', 8080), SimpleHTTPRequestHandler)
-print('server is running')
-httpd.serve_forever()
+def run_server():
+    httpd = HTTPServer(('localhost', 8080), SimpleHTTPRequestHandler)
+    print('server is running')
+    httpd.serve_forever()
 
+if __name__ == "__main__":
+    run_server()
 
