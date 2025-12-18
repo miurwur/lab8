@@ -108,3 +108,48 @@ env = Environment(
 Возможность добавления валют пользователям
 <img width="2558" height="1306" alt="image" src="https://github.com/user-attachments/assets/50f5e86d-579c-408d-a7e6-7334fc457d43" />  
 
+
+**Тестирование**  
+
+Пример теста для модели: 
+```python
+    def test_user_creation_valid(self):
+        """Тест создания пользователя с валидными данными."""
+        user = Users_id("Анна", 25, "anna@example.com")
+        self.assertEqual(user.name, "Анна")
+        self.assertEqual(user.age, 25)
+        self.assertEqual(user.email, "anna@example.com")
+```
+
+Пример теста для контроллера:  
+```python
+def test_handle_root_route(self):
+    """Тест обработки главной страницы (/)"""
+    # 1. Патчим метод получения шаблонов из окружения Jinja2
+    with patch('my_App.env.get_template') as mock_get_template:
+        # 2. Создаем мок-объект шаблона
+        mock_template = MagicMock()
+        # 3. Настраиваем возвращаемое значение метода render()
+        mock_template.render.return_value = "<html>Test</html>"
+        
+        # 4. Настраиваем, что get_template() возвращает наш мок-шаблон
+        mock_get_template.return_value = mock_template
+
+        # 5. Устанавливаем тестовый путь (маршрут главной страницы)
+        self.handler.path = '/'
+        
+        # 6. Имитируем вызов метода обработки GET-запроса
+        self.handler.do_GET()
+
+        # 7. ПРОВЕРКА: убеждаемся, что был вызван правильный шаблон
+        mock_get_template.assert_called_once_with('page1.html')
+        
+        # 8. ПРОВЕРКА: убеждаемся, что отправлен успешный статус 200
+        self.handler.send_response.assert_called_with(200)
+        
+        # 9. ПРОВЕРКА: убеждаемся, что установлен правильный Content-Type
+        self.handler.send_header.assert_called_with(
+            'Content-Type', 'text/html; charset=utf-8'
+        )
+```
+
