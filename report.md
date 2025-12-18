@@ -120,21 +120,3 @@ env = Environment(
         self.assertEqual(user.age, 25)
         self.assertEqual(user.email, "anna@example.com")
 ```
-
-Пример теста для контроллера:  
-```python
-def test_handle_root_route(self):
-    """Тест обработки главной страницы (/)"""
-    with patch('my_App.env.get_template') as mock_get_template:     # Патчим метод получения шаблонов из окружения Jinja2
-        mock_template = MagicMock()         # Создаем мок-объект шаблона
-        mock_template.render.return_value = "<html>Test</html>"         # Настраиваем возвращаемое значение метода render()
-        
-        mock_get_template.return_value = mock_template
-        self.handler.path = '/'
-        self.handler.do_GET()  # Имитируем вызов метода обработки GET-запроса
-        mock_get_template.assert_called_once_with('page1.html')
-        self.handler.send_response.assert_called_with(200) # убеждаемся, что отправлен успешный статус 200
-        self.handler.send_header.assert_called_with(
-            'Content-Type', 'text/html; charset=utf-8' 
-        )         # Убеждаемся, что установлен правильный Content-Type
-```
