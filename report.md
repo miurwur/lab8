@@ -138,4 +138,3 @@ def test_handle_root_route(self):
             'Content-Type', 'text/html; charset=utf-8' 
         )         # Убеждаемся, что установлен правильный Content-Type
 ```
-
